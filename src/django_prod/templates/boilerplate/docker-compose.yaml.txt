@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: prod.Dockerfile
+    image: webapp
+    restart: unless-stopped
+    command: gunicorn --workers=3 webapp.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - sqlite_volume:/code/db
+      - static_volume:/code/staticfiles
+
+volumes:
+  static_volume:
+  sqlite_volume:

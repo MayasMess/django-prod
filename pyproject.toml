@@ -1,0 +1,24 @@
+[project]
+name = "django-prod"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "MayasMess", email = "amayas.messara@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "django>=4.2",
+    "gunicorn>=23.0.0",
+    "python-dotenv>=1.1.0",
+    "questionary>=2.1.0",
+    "scp>=0.15.0",
+    "whitenoise>=6.9.0",
+]
+
+[project.scripts]
+django-prod = "django_prod:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo 'Running migrations...'
+python manage.py migrate
+
+echo 'Collecting static files...'
+python manage.py collectstatic --noinput --clear --no-post-process
+
+cd /code
+echo "Starting app with CMD: $@"
+exec "$@"
