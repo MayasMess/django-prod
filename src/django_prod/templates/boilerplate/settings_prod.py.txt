@@ -13,7 +13,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # WhiteNoise config
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+db_path = BASE_DIR / "db"
+db_path.mkdir(parents=True, exist_ok=True)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

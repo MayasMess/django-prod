@@ -16,4 +16,4 @@ sqlparse==0.5.3
 tzdata==2025.2
 wcwidth==0.2.13
 whitenoise==6.9.0
-django-prod==0.1.1
+django-prod==0.1.2
