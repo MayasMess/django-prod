@@ -33,7 +33,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.create_dot_env_prod(self.secret_key, self.settings_dir)
-        self.create_settings_prod(self.settings_dir, self.domain)
+        self.create_settings_prod(self.settings_dir, self.domain, self.project_name)
         self.create_docker_compose(self.settings_dir, self.project_name)
         self.create_dockerfile(self.settings_dir)
         self.create_entrypoint(self.settings_dir)
@@ -58,9 +58,10 @@ class Command(BaseCommand):
         cls._create_file_from_template(env_context, "boilerplate/.env.prod.txt", output_path)
 
     @classmethod
-    def create_settings_prod(cls, settings_dir, domain):
+    def create_settings_prod(cls, settings_dir, domain, project_name):
         context = {
             "domain": domain,
+            "project_name": project_name,
         }
         output_path = settings_dir / "settings_prod.py"
         cls._create_file_from_template(context, "boilerplate/settings_prod.py.txt", output_path)
@@ -86,21 +87,22 @@ class Command(BaseCommand):
     @classmethod
     def create_requirements_if_not_exists(cls, settings_dir):
         output_path = settings_dir.parent / "requirements.txt"
-        if not output_path.exists():
-            do_create = questionary.confirm(
-                "[WARNING] - 'requirements.txt' not found. Do you want to create a default one? "
-                "This will run the command 'pip freeze > requirements.txt'"
-            ).ask()
-            if do_create:
-                try:
-                    result = subprocess.run(
-                        ["pip", "freeze"],
-                        capture_output=True,
-                        text=True,
-                        check=True
-                    )
-                    output_path.write_text(result.stdout)
-                    print(f"✅ Created requirements.txt at {output_path}")
-                except subprocess.CalledProcessError as e:
-                    print("❌ Failed to generate requirements.txt")
-                    print(e.stderr)
+        cls._create_file_from_template({}, "boilerplate/requirements.txt", output_path)
+        # if not output_path.exists():
+        #     do_create = questionary.confirm(
+        #         "[WARNING] - 'requirements.txt' not found. Do you want to create a default one? "
+        #         "This will run the command 'pip freeze > requirements.txt'"
+        #     ).ask()
+        #     if do_create:
+        #         try:
+        #             result = subprocess.run(
+        #                 ["pip", "freeze"],
+        #                 capture_output=True,
+        #                 text=True,
+        #                 check=True
+        #             )
+        #             output_path.write_text(result.stdout)
+        #             print(f"✅ Created requirements.txt at {output_path}")
+        #         except subprocess.CalledProcessError as e:
+        #             print("❌ Failed to generate requirements.txt")
+        #             print(e.stderr)

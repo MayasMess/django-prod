@@ -121,12 +121,12 @@ class Command(BaseCommand):
             self.stdout.write("✅ Docker already installed.")
 
     def launch_docker_compose(self, ssh):
-        self.stdout.write("🚀 Running `docker compose up -d --force-recreate --renew-anon-volumes --build`...")
+        self.stdout.write("🚀 Running `docker compose up -d --force-recreate --renew-anon-volumes --remove-orphans --build`...")
 
         # Test docker compose
         cmds_to_try = [
-            f"cd {self.remote_path} && docker compose up -d --force-recreate --renew-anon-volumes --build",
-            f"cd {self.remote_path} && docker-compose up -d --force-recreate --renew-anon-volumes --build"
+            f"cd {self.remote_path} && docker compose up -d --force-recreate --renew-anon-volumes --remove-orphans --build",
+            f"cd {self.remote_path} && docker-compose up -d --force-recreate --renew-anon-volumes --remove-orphans --build",
         ]
 
         fails = ""
