@@ -53,6 +53,8 @@ You will be prompted for:
 - SSH username
 - Path to your SSH private key
 
+![Prompted With](doc_images/prompted.png)
+
 Then the script will:
 
 - Upload your project to the server
@@ -61,4 +63,10 @@ Then the script will:
 
 ---
 
+This project is **opinionated** and uses the simplest technologies possible to move from development to production quickly.
+It relies on **SQLite** as the production database, and for those who still consider SQLite a “toy database,” I strongly encourage you to look into its performance when properly configured. That’s why the project includes a dedicated configuration to get the most out of SQLite (see **settings_prod.py**).
+
+It also uses **WhiteNoise** to handle static files. Performance is more than acceptable once assets are cached and served through a CDN (for example, a Cloudflare proxy).
+
+The third technology used is **Docker** and **Docker Compose**. no need to explain why :)
 
