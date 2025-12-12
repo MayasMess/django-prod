@@ -1,10 +1,10 @@
 [project]
 name = "django-prod"
 version = "0.1.2"
-description = "Add your description here"
+description = "Quickly deploy over SSH your newly generated django project."
 readme = "README.md"
 authors = [
-    { name = "MayasNova", email = "code@mayasnova.com" }
+    { name = "MayasNova", email = "code@mayasnova.dev" }
 ]
 requires-python = ">=3.13"
 dependencies = [
