@@ -4,7 +4,7 @@ echo 'Running migrations...'
 python manage.py migrate
 
 echo 'Collecting static files...'
-python manage.py collectstatic --noinput --clear --no-post-process
+python manage.py collectstatic --noinput --clear
 
 cd /code
 echo "Starting app with CMD: $@"
