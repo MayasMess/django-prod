@@ -66,7 +66,7 @@ src/django_prod/
 
 ### Command Flow
 
-**`django-prod startproject <name>`**: Runs `django-admin startproject` → prompts for domain → adds `django_prod` to INSTALLED_APPS → generates all production files
+**`django-prod startproject <name>`**: Runs `django-admin startproject` → prompts for domain → adds `django_prod` to INSTALLED_APPS → adds inline welcome view to urls.py → generates all production files
 
 **`django_prod_init`**: Prompts for domain → renders all boilerplate templates → writes production files to project root (for existing projects)
 

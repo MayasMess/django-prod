@@ -1,6 +1,6 @@
 [project]
 name = "django-prod"
-version = "0.1.2"
+version = "0.1.4"
 description = "Quickly deploy over SSH your newly generated django project."
 readme = "README.md"
 authors = [
@@ -8,12 +8,13 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
-    "django>=4.2",
+    "django>=5.2,<6.0",
     "gunicorn>=23.0.0",
-    "python-dotenv>=1.1.0",
+    "paramiko>=3.5.0",
+    "python-dotenv>=1.2.0",
     "questionary>=2.1.0",
     "scp>=0.15.0",
-    "whitenoise>=6.9.0",
+    "whitenoise>=6.11.0",
 ]
 
 [project.scripts]

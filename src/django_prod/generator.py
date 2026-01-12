@@ -88,30 +88,88 @@ def add_to_installed_apps(settings_path: Path, app_name: str) -> None:
     print(f"[Modified] - {settings_path} (added {app_name} to INSTALLED_APPS)")
 
 
-def include_urls(urls_path: Path, app_name: str, url_path: str = "") -> None:
-    """Include an app's URLs in the project's urls.py."""
+def add_welcome_view(urls_path: Path) -> None:
+    """Add a simple welcome view to the project's urls.py."""
     content = urls_path.read_text()
 
-    # Check if already included
-    if f"include('{app_name}.urls')" in content or f'include("{app_name}.urls")' in content:
-        print(f"[already present] - {app_name}.urls in urlpatterns")
+    # Check if welcome view already exists
+    if "welcome_view" in content or "django-prod" in content:
+        print("[already present] - welcome view in urls.py")
         return
 
-    # Add 'include' to imports if not present
-    # Use regex to match actual import line, not comments
-    import_pattern = r"^from django\.urls import path$"
-    if re.search(import_pattern, content, re.MULTILINE):
-        content = re.sub(
-            import_pattern,
-            "from django.urls import include, path",
-            content,
-            flags=re.MULTILINE,
-        )
+    # New urls.py content with inline welcome view
+    new_content = '''"""
+URL configuration for this project.
+"""
+from django.contrib import admin
+from django.http import HttpResponse
+from django.urls import path
 
-    # Add the URL pattern
-    pattern = r"(urlpatterns\s*=\s*\[)"
-    replacement = f"\\1\n    path('{url_path}', include('{app_name}.urls')),"
-    new_content = re.sub(pattern, replacement, content)
+
+def welcome_view(request):
+    """Welcome page - remove this when you add your own views."""
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>django-prod - Ready for Production!</title>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 20px;
+                text-align: center;
+                color: #333;
+            }
+            h1 { color: #092e20; }
+            .success { color: #28a745; font-size: 1.2em; }
+            code {
+                background: #f4f4f4;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 0.9em;
+            }
+            .next-steps {
+                text-align: left;
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 30px;
+            }
+            .next-steps li { margin: 10px 0; }
+            a { color: #092e20; }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to django-prod!</h1>
+        <p class="success">Your project is configured and ready for production deployment.</p>
+
+        <div class="next-steps">
+            <h3>Next steps:</h3>
+            <ol>
+                <li>Create your Django apps: <code>python manage.py startapp myapp</code></li>
+                <li>Add your views and models</li>
+                <li>Remove this welcome view from <code>urls.py</code></li>
+                <li>Deploy: <code>python manage.py django_prod_deploy</code></li>
+            </ol>
+        </div>
+
+        <p style="margin-top: 30px;">
+            <a href="https://docs.djangoproject.com/" target="_blank">Django Documentation</a> |
+            <a href="/admin/">Admin Panel</a>
+        </p>
+    </body>
+    </html>
+    """
+    return HttpResponse(html)
+
+
+urlpatterns = [
+    path("", welcome_view, name="welcome"),
+    path("admin/", admin.site.urls),
+]
+'''
 
     urls_path.write_text(new_content)
-    print(f"[Modified] - {urls_path} (added {app_name}.urls)")
+    print(f"[Modified] - {urls_path} (added welcome view)")

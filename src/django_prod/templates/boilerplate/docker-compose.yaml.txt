@@ -1,5 +1,6 @@
 services:
   {{ project_name }}:
+    container_name: {{ project_name }}
     build:
       context: .
       dockerfile: prod.Dockerfile

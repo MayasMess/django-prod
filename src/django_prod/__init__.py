@@ -11,7 +11,7 @@ from pathlib import Path
 import questionary
 from django.core.management.utils import get_random_secret_key
 
-from .generator import add_to_installed_apps, generate_production_files, include_urls
+from .generator import add_to_installed_apps, add_welcome_view, generate_production_files
 
 
 def startproject(name: str, directory: str | None = None) -> None:
@@ -57,9 +57,9 @@ def startproject(name: str, directory: str | None = None) -> None:
     settings_path = settings_dir / "settings.py"
     add_to_installed_apps(settings_path, "django_prod")
 
-    # Include django_prod URLs for welcome page
+    # Add welcome view to urls.py
     urls_path = settings_dir / "urls.py"
-    include_urls(urls_path, "django_prod")
+    add_welcome_view(urls_path)
 
     # Generate production files
     secret_key = get_random_secret_key()
